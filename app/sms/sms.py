@@ -2,7 +2,6 @@
 import logging
 import ssl
 import threading
-import multiprocessing
 import queue
 import time
 import typing
@@ -18,11 +17,6 @@ import app.helpers as helpers
 from .message import compose_msg_content
 
 from app.db import make_db
-from app import (
-    ENABLE_STS,
-    SMS_ENABLE_PV_STS,
-    SMS_PREFIX,
-)
 
 logger = logging.getLogger("SMS")
 
@@ -38,11 +32,9 @@ class SMSApp:
         tls: bool,
         login: str,
         passwd: str,
-        ioc_queue: multiprocessing.Queue,
-        sms_queue: multiprocessing.Queue,
+        sms_queue: queue.Queue,
         db_url: str,
     ):
-        self.ioc_queue = ioc_queue
         self.sms_queue = sms_queue
 
         self.entries: typing.Dict[str, entities.Entry] = {}
@@ -51,12 +43,11 @@ class SMSApp:
         self.login: str = login
         self.passwd: str = passwd
         self.tick: float = 15
-        self.enable: bool = True
         self.running: bool = True
 
         self.db = make_db(url=db_url)
 
-        self.main_thread_executor_workers = 5
+        self.main_thread_executor_workers = 1
         self.main_thread_executor = concurrent.futures.ThreadPoolExecutor(
             max_workers=self.main_thread_executor_workers,
             thread_name_prefix="SMSAction",
@@ -221,78 +212,10 @@ class SMSApp:
         while self.running:
             event = self.sms_queue.get(block=True, timeout=None)
 
-            if not self.enable:
-                logger.warning('SMS is disabled (PV "CON:MailServer:Enable" is zero)')
-                continue
-
             if type(event) == entities.EmailEvent:
                 # Send an email
                 message = self.compose_msg(event)
                 self.send_email(event, message)
 
-            elif type(event) == entities.ConfigEvent:
-                self.handle_config(event)
-
             else:
                 logger.warning(f"Unknown event type {event} obtained from queue.")
-
-    def handle_config(self, event: entities.ConfigEvent):
-        """
-        Handle configuration changes.
-        :param commons.ConfigEvent event: Configuration event.
-        """
-        try:
-            if event.config_type == entities.ConfigType.SetSMSState:
-                self.enable = True if event.value else False
-
-                self.ioc_queue.put(
-                    {
-                        "reason": SMS_ENABLE_PV_STS,
-                        "value": 1 if self.enable else 0,
-                    }
-                )
-                logger.info(f"SMS status enable={self.enable}")
-
-            elif event.config_type == entities.ConfigType.GetSMSState:
-                self.ioc_queue.put(
-                    {"reason": event.pv_name, "value": 1 if self.enable else 0}
-                )
-
-            elif (
-                event.config_type == entities.ConfigType.SetGroupState
-                or event.config_type == entities.ConfigType.GetGroupState
-            ):
-                group_name = event.pv_name
-                if group_name not in self.groups:
-                    # Invalid group
-                    logger.warning(
-                        f"Failed to handle {event}, {group_name} is not a valid group"
-                    )
-                    return
-
-                group: entities.Group = self.groups[group_name]
-
-                if event.config_type == entities.ConfigType.SetGroupState:
-
-                    group.enabled = True if event.value else False
-                    self.ioc_queue.put(
-                        {
-                            "reason": f"{SMS_PREFIX}:{group_name}:{ENABLE_STS}",
-                            "value": 1 if event.value else 0,
-                        }
-                    )
-                    logger.info(f"Group {group} enabled={event.value}")
-
-                elif event.config_type == entities.ConfigType.GetGroupState:
-
-                    self.ioc_queue.put(
-                        {
-                            "reason": f"{SMS_PREFIX}:{group_name}:{ENABLE_STS}",
-                            "value": 1 if group.enable else 0,
-                        }
-                    )
-
-            else:
-                logger.error("Unsupported config event type {event}")
-        except queue.Full:
-            logger.exception("Cannot send information back to the IOC.")

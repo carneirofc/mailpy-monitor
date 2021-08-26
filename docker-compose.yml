@@ -1,17 +1,21 @@
 version: "3.7"
 services:
   mongo:
-    image: mongo:4.4.1
+    image: lnlscon/mailpy-db:v1.2
+ #   image: mongo:4.4.1
     ports:
       - 27017:27017
 
-  sms:
-    image: lnlscon/notification:v2.0
+  mail:
+    image: lnlscon/mailpy-mail:v2.1
     build: .
     network_mode: host
     secrets:
       - ALERT_MAIL_PASSWORD
       - ALERT_MAIL_LOGIN
+    environment:
+      - ALERT_MAIL_PASSWORD=SIRIUS-2020
+      - ALERT_MAIL_LOGIN=sirius.software.alert@gmail.com
     logging:
       driver: "json-file"
       options:

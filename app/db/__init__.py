@@ -17,13 +17,13 @@ class DBManager:
     def __init__(self, db):
         self.db: typing.Optional[pymongo.database.Database] = db
 
-    def get_entries(self):
-        """ Return all entries """
+    def get_entries(self) -> typing.List[Entry]:
+        """Return all entries"""
         entries: pymongo.collection.Collection = self.db[DBManager.ENTRIES_COLLECTION]
         return [e for e in entries.find()]
 
     def create_entry(self, entry: Entry):
-        """ Create an entry """
+        """Create an entry"""
         if not entry.group:
             logger.warning(f"Invalid group for entry {entry}")
             return
@@ -47,7 +47,7 @@ class DBManager:
         return groups.find_one({"_id": group_name})
 
     def create_group(self, group: Group):
-        """ Create a group """
+        """Create a group"""
         groups: pymongo.collection.Collection = self.db[DBManager.GROUPS_COLLECTION]
 
         if groups.find_one({"name": group.name}):
@@ -58,22 +58,24 @@ class DBManager:
         logger.info(f"Inserted group {group} id {result}")
 
     def get_condition(self, name: str):
-        """ Get a condtion by name """
+        """Get a condtion by name"""
         conditions: pymongo.collection.Collection = self.db[
             DBManager.CONDITIONS_COLLECTION
         ]
         return conditions.find_one({"name": name})
 
     def initialize_conditions(self):
-        """ Initialize the conditions collection using the supported ones from commons.Condition """
+        """Initialize the conditions collection using the supported ones from commons.Condition"""
         self.db.drop_collection(DBManager.CONDITIONS_COLLECTION)
+        try:
+            conditions: pymongo.collection.Collection = self.db[
+                DBManager.CONDITIONS_COLLECTION
+            ]
+            result = conditions.insert_many(Condition.get_conditions())
 
-        conditions: pymongo.collection.Collection = self.db[
-            DBManager.CONDITIONS_COLLECTION
-        ]
-        result = conditions.insert_many(Condition.get_conditions())
-
-        logger.info(f"Inserted {result.inserted_ids}")
+            logger.info(f"Inserted {result.inserted_ids}")
+        except Exception:
+            logger.exception("Conditions were not initialized")
 
 
 def make_db(

@@ -3,13 +3,13 @@ class EmailEvent:
 
     def __init__(
         self,
-        pvname,
-        specified_value_message,
-        unit,
-        subject,
-        emails,
-        warning,
-        condition,
+        pvname: str,
+        specified_value_message: str,
+        unit: str,
+        subject: str,
+        emails: str,
+        warning: str,
+        condition: str,
         value_measured,
     ):
         self.pvname = pvname
@@ -24,4 +24,4 @@ class EmailEvent:
         self.value_measured = value_measured
 
     def __str__(self):
-        return f"<EmailEvent {self.pvname} {self.specified_value_message} {self.subject} {self.emails} {self.warning}>"
+        return f"<EmailEvent {self.pvname} {self.value_measured} {self.condition} {self.specified_value_message} {self.subject} {self.emails} {self.warning}>"

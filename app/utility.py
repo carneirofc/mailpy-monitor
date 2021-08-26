@@ -4,28 +4,22 @@ import pandas
 import pymongo
 import typing
 
-from . import commons
-from . import db
+import app.entities
+import app.db
 
 logger = logging.getLogger()
 
-dbm: typing.Optional[db.DBManager] = None
+dbm: app.db.DBManager = None
 
 
 def connect(url="mongodb://localhost:27017/mailpy-db"):
     global dbm
     if not dbm:
-        dbm = db.DBManager(url=url)
-
-
-def disconnect():
-    global dbm
-    if dbm:
-        dbm.disconnect()
+        dbm = app.db.make_db(url=url)
 
 
 def initialize_conditions():
-    """ Initialize the conditions collection using the supported ones from commons.Condition """
+    """ Initialize the conditions collection using the supported ones from app.entities.Condition """
     global dbm
     if dbm:
         dbm.initialize_conditions()
@@ -43,20 +37,20 @@ def create_entry(
     group_name: str,
 ):
     global dbm
-    entry: commons.Entry = None
+    entry: app.entities.Entry = None
     try:
-        entry = commons.Entry(
-            sms_queue=None,
-            pvname=pvname,
-            emails=emails,
-            condition=condition,
+        entry = app.entities.Entry(
             alarm_values=alarm_values,
+            condition=condition,
+            dummy=True,
+            email_timeout=email_timeout,
+            emails=emails,
+            group=app.entities.Group(name=group_name, enabled=True),
+            pvname=pvname,
+            sms_queue=None,
+            subject=subject,
             unit=unit,
             warning_message=warning_message,
-            subject=subject,
-            email_timeout=email_timeout,
-            group=commons.Group(name=group_name, enabled=True),
-            dummy=True,
         )
         dbm.create_entry(entry)
         logger.info(f"Creating entry {entry}")
@@ -64,7 +58,7 @@ def create_entry(
     except pymongo.errors.DuplicateKeyError:
         logger.warn(f"Entry exists {entry}")
 
-    except commons.EntryException:
+    except app.helpers.EntryException:
         logger.exception("Failed to create entry")
 
 

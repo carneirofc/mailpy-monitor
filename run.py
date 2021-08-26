@@ -51,7 +51,6 @@ if __name__ == "__main__":
         login=args.login,
         passwd=args.passwd,
         sms_queue=app.SMS_QUEUE,
-        ioc_queue=app.IOC_QUEUE,
         db_url=args.db_url,
     )
 

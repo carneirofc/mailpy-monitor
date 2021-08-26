@@ -80,13 +80,15 @@ class Entry:
             # @todo: Condition.DecreasingStep condition not supported
             raise EntryException(f"Invalid condition {self.condition} for entry {self}")
 
+        self.pv = DummyPV(
+            pvname=self._pvname.strip()
+        )  # Create the dummy PV, it will be replaced once the connection is estabilished
+
     def connect(self):
         if not self._dummy:
             # The last action is to create a PV
             self.pv: epics.PV = epics.PV(pvname=self._pvname.strip())
             self.pv.add_callback(self.check_alarms)
-        else:
-            self.pv = DummyPV(pvname=self._pvname.strip())
 
     def as_dict(self):
         return {
@@ -174,6 +176,36 @@ class Entry:
                 return loop_level
             loop_level += 1
 
+    def condition_increasing_step(self, value):
+        specified_value_message = None
+        next_step_limiar = self.step_values[self.step_level]
+        if value >= next_step_limiar and (self.step_level + 1) <= self.max_level:
+            # We are going up levels
+            loop_level = self.find_next_level(value)
+            self.step_level = loop_level
+            specified_value_message = f"lower than {self.step_values[0]}{self.unit}"
+
+        if value >= next_step_limiar and self.step_level == self.max_level:
+            # We are already at the maximum level
+            pass
+
+        if value < next_step_limiar and self.step_level == self.min_level:
+            # We are already at the lowest level
+            pass
+
+        if (
+            value < next_step_limiar
+            and self.step_level != self.min_level
+            and value < self.step_values[self.step_level - 1]
+        ):
+            # Going down levels
+            loop_level = self.find_next_level(value)
+            logger.info(
+                f"{self} going down from level {self.step_level} to {loop_level}"
+            )
+            self.step_level = loop_level
+        return specified_value_message
+
     def handle_condition(self, value) -> typing.Optional[EmailEvent]:
         """
         Handle the alarm condition and return an post a request to the SMS queue.
@@ -195,33 +227,7 @@ class Entry:
             specified_value_message = f"higher than {self.alarm_min}{self.unit}"
 
         elif self.condition == Condition.IncreasingStep:
-            next_step_limiar = self.step_values[self.step_level]
-            if value >= next_step_limiar and (self.step_level + 1) <= self.max_level:
-                # We are going up levels
-                loop_level = self.find_next_level(value)
-                self.step_level = loop_level
-                specified_value_message = f"lower than {self.step_values[0]}{self.unit}"
-
-            if value >= next_step_limiar and self.step_level == self.max_level:
-                # We are already at the maximum level
-                pass
-
-            if value < next_step_limiar and self.step_level == self.min_level:
-                # We are already at the lowest level
-                pass
-
-            if (
-                value < next_step_limiar
-                and self.step_level != self.min_level
-                and value < self.step_values[self.step_level - 1]
-            ):
-                # Going down levels
-                loop_level = self.find_next_level(value)
-                logger.info(
-                    f"{self} going down from level {self.step_level} to {loop_level}"
-                )
-                self.step_level = loop_level
-                pass
+            specified_value_message = self.condition_increasing_step(value)
 
         try:
             if specified_value_message:
