@@ -1,5 +1,5 @@
 .idea/
-.vscode/
+.vscode/.ropeproject
 __pycache__/
 SMS_LOGIN
 SMS_PASSWORD
