@@ -1,12 +1,45 @@
+import dataclasses
 import logging
 import typing
+
 import pymongo
 import pymongo.database
 
+from app.entities import ConditionEnums, Entry, Group
+
 from .connector import DBConnector
-from app.entities import Entry, Group, Condition
 
 logger = logging.getLogger()
+
+
+class DBException(Exception):
+    """"""
+
+
+class DBManagerNotInitializedExeption(DBException):
+    """"""
+
+
+@dataclasses.dataclass
+class GroupData:
+    id: str
+    name: str
+    enabled: bool
+    description: str
+
+
+@dataclasses.dataclass
+class EntryData:
+    id: str
+    pvname: str
+    emails: typing.List[str]
+    condition: str
+    alarm_values: str
+    unit: str
+    warning_message: str
+    subject: str
+    email_timeout: float
+    group: str
 
 
 class DBManager:
@@ -17,48 +50,39 @@ class DBManager:
     def __init__(self, db):
         self.db: typing.Optional[pymongo.database.Database] = db
 
-    def get_entries(self) -> typing.List[Entry]:
-        """Return all entries"""
+    def _parse_group(self, data: typing.Any) -> GroupData:
+        return GroupData(
+            description=data["description"],
+            enabled=bool(data["enabled"]),
+            id=str(data["_id"]),
+            name=data["name"],
+        )
+
+    def _parse_entry(self, data: typing.Any) -> EntryData:
+        id = str(data["id"])
+        del data["id"]
+
+        return EntryData(id=id, **data)
+
+    def get_entries(self) -> typing.List[EntryData]:
+        if not self.db:
+            raise DBManagerNotInitializedExeption()
+
         entries: pymongo.collection.Collection = self.db[DBManager.ENTRIES_COLLECTION]
-        return [e for e in entries.find()]
+        return [self._parse_entry(e) for e in entries.find()]
 
-    def create_entry(self, entry: Entry):
-        """Create an entry"""
-        if not entry.group:
-            logger.warning(f"Invalid group for entry {entry}")
-            return
+    def get_group(self, group_name: str) -> typing.Optional[GroupData]:
+        if not self.db:
+            raise DBManagerNotInitializedExeption()
 
-        if not self.get_group(entry.group.name):
-            self.create_group(entry.group)
-
-        if not self.get_condition(entry.condition):
-            logger.error(
-                "Failed to crate entry {entry}, condition not found at the database"
-            )
-
-        entries: pymongo.collection.Collection = self.db[DBManager.ENTRIES_COLLECTION]
-
-        logger.info(f"insert {entry.as_dict()}")
-        result = entries.insert(entry.as_dict())
-        logger.info(f"Inserted entry {entry} id {result}")
-
-    def get_group(self, group_name: str) -> typing.Optional[str]:
-        groups: pymongo.collection.Collection = self.db[DBManager.GROUPS_COLLECTION]
-        return groups.find_one({"_id": group_name})
-
-    def create_group(self, group: Group):
-        """Create a group"""
         groups: pymongo.collection.Collection = self.db[DBManager.GROUPS_COLLECTION]
 
-        if groups.find_one({"name": group.name}):
-            logger.warning(f"Group {group} already exists")
-            return
-
-        result = groups.insert(group.as_dict())
-        logger.info(f"Inserted group {group} id {result}")
+        return self._parse_group(groups.find_one({"name": group_name}))
 
     def get_condition(self, name: str):
-        """Get a condtion by name"""
+        if not self.db:
+            raise DBManagerNotInitializedExeption()
+
         conditions: pymongo.collection.Collection = self.db[
             DBManager.CONDITIONS_COLLECTION
         ]
@@ -71,16 +95,13 @@ class DBManager:
             conditions: pymongo.collection.Collection = self.db[
                 DBManager.CONDITIONS_COLLECTION
             ]
-            result = conditions.insert_many(Condition.get_conditions())
+            result = conditions.insert_many(ConditionEnums.get_conditions())
 
             logger.info(f"Inserted {result.inserted_ids}")
         except Exception:
             logger.exception("Conditions were not initialized")
 
 
-def make_db(
-    url: str = "mongodb://localhost:27017/", db_name: str = "mailpy-db"
-) -> DBManager:
+def make_db(url: str = "mongodb://localhost:27017/", db_name: str = "mailpy-db"):
     db = DBConnector(url, db_name).connect()
-    dbm = DBManager(db)
-    return dbm
+    return DBManager(db)
