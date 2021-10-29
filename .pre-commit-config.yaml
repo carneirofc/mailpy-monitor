@@ -4,6 +4,7 @@ repos:
     hooks:
       - id: check-yaml
       - id: check-json
+        exclude: '^tests/'
       - id: trailing-whitespace
       - id: mixed-line-ending # or whatever the name; you're the boss
         args: ["--fix", "lf"]

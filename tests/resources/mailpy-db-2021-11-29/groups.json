@@ -1,0 +1,49 @@
+{
+	"_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa82"
+	},
+	"name": "TempK1",
+	"enabled": true
+}
+{
+	"_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa88"
+	},
+	"name": "TempK2",
+	"enabled": true
+}
+{
+	"_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	},
+	"name": "TempAS",
+	"enabled": true
+}
+{
+	"_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	},
+	"name": "RAD",
+	"enabled": true
+}
+{
+	"_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aaaa"
+	},
+	"name": "UPS",
+	"enabled": true
+}
+{
+	"_id": {
+		"$oid": "5ff4a4e8245b2ba9b3e1aaad"
+	},
+	"name": "UPSLinac1",
+	"enabled": true
+}
+{
+	"_id": {
+		"$oid": "5ff4a4e8245b2ba9b3e1aaaf"
+	},
+	"name": "UPSLinac3",
+	"enabled": true
+}

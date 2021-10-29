@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  db:
+    container_name: mailpy-test-db
+    image: mongo:4.4.3-bionic
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: mailpy
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
+    volumes:
+      - ./01-create-collections.js:/docker-entrypoint-initdb.d/01-create-collections.js:ro
+      - ./02-insert-data.sh:/docker-entrypoint-initdb.d/02-insert-data.sh:ro
+      - ./mailpy-db-2021-11-29:/mailpy-db-init-data:ro

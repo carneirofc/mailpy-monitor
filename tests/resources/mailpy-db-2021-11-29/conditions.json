@@ -1,0 +1,35 @@
+{
+	"_id": {
+		"$oid": "5ff49f439cf6a08082901dbe"
+	},
+	"name": "out of range",
+	"desc": "Must remain within the specified range."
+}
+{
+	"_id": {
+		"$oid": "5ff49f439cf6a08082901dbf"
+	},
+	"name": "superior than",
+	"desc": "Must remain superior than."
+}
+{
+	"_id": {
+		"$oid": "5ff49f439cf6a08082901dc0"
+	},
+	"name": "inferior than",
+	"desc": "Must remain inferior than."
+}
+{
+	"_id": {
+		"$oid": "5ff49f439cf6a08082901dc1"
+	},
+	"name": "increasing step",
+	"desc": "Each increasing step triggers an alarm."
+}
+{
+	"_id": {
+		"$oid": "5ff49f439cf6a08082901dc2"
+	},
+	"name": "decreasing step",
+	"desc": "Each decreasing step triggers an alarm."
+}
