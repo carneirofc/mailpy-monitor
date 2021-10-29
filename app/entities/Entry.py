@@ -1,19 +1,17 @@
-import multiprocessing
-import threading
-import typing
-import time
 import logging
+import multiprocessing
 import queue
-
+import threading
+import time
+import typing
 
 import epics
 
-from .Group import Group
-from .Condition import Condition
-from .EmailEvent import EmailEvent
-
 from app.helpers import EntryException
 
+from .Condition import ConditionEnums
+from .EmailEvent import EmailEvent
+from .Group import Group
 
 logger = logging.getLogger()
 
@@ -34,6 +32,7 @@ class Entry:
 
     def __init__(
         self,
+        id: str,
         pvname: str,
         emails: str,
         condition: str,
@@ -44,11 +43,10 @@ class Entry:
         email_timeout: float,
         group: Group,
         sms_queue: multiprocessing.Queue,
-        _id=None,
         dummy: bool = False,
     ):
+        self._id = id
         self.pv: typing.Optional[epics.PV] = None
-        self._id = _id
         self.condition = condition.lower().strip()
         self.alarm_values = alarm_values
         self.unit = unit
@@ -68,13 +66,13 @@ class Entry:
         # reset last_event_time for all PVs, so it start monitoring right away
         self.last_event_time = time.time() - self.email_timeout
 
-        if self.condition == Condition.OutOfRange:
+        if self.condition == ConditionEnums.OutOfRange:
             self._init_out_of_range()
-        elif self.condition == Condition.SuperiorThan:
+        elif self.condition == ConditionEnums.SuperiorThan:
             self._init_superior_than()
-        elif self.condition == Condition.InferiorThan:
+        elif self.condition == ConditionEnums.InferiorThan:
             self._init_inferior_than()
-        elif self.condition == Condition.IncreasingStep:
+        elif self.condition == ConditionEnums.IncreasingStep:
             self._init_increasing_step()
         else:
             # @todo: Condition.DecreasingStep condition not supported
@@ -90,8 +88,13 @@ class Entry:
             self.pv: epics.PV = epics.PV(pvname=self._pvname.strip())
             self.pv.add_callback(self.check_alarms)
 
+    @property
+    def id(self):
+        return self._id
+
     def as_dict(self):
         return {
+            "id": self.id,
             "pvname": self.pv.pvname,
             "condition": self.condition,
             "alarm_values": self.alarm_values,
@@ -175,6 +178,7 @@ class Entry:
                 # If the value is lesser than the next level beginning, we found our current level
                 return loop_level
             loop_level += 1
+        return loop_level
 
     def condition_increasing_step(self, value):
         specified_value_message = None
@@ -213,20 +217,20 @@ class Entry:
         specified_value_message: typing.Optional[str] = None
         event: typing.Optional[EmailEvent] = None
 
-        if self.condition == Condition.OutOfRange and (
+        if self.condition == ConditionEnums.OutOfRange and (
             value < self.alarm_min or value > self.alarm_max
         ):
             specified_value_message = (
                 f"from {self.alarm_min}{self.unit} to {self.alarm_max} {self.unit}"
             )
 
-        elif self.condition == Condition.SuperiorThan and value > self.alarm_max:
+        elif self.condition == ConditionEnums.SuperiorThan and value > self.alarm_max:
             specified_value_message = f"lower than {self.alarm_min}{self.unit}"
 
-        elif self.condition == Condition.InferiorThan and value < self.alarm_min:
+        elif self.condition == ConditionEnums.InferiorThan and value < self.alarm_min:
             specified_value_message = f"higher than {self.alarm_min}{self.unit}"
 
-        elif self.condition == Condition.IncreasingStep:
+        elif self.condition == ConditionEnums.IncreasingStep:
             specified_value_message = self.condition_increasing_step(value)
 
         try:
@@ -247,11 +251,10 @@ class Entry:
         except EntryException:
             logger.exception(f"Invalid entry {self}")
 
-        finally:
-            return event
+        return event
 
     def trigger(self):
-        """ Manual trigger """
+        """Manual trigger"""
         self.check_alarms(value=self.pv.value)
 
     def check_alarms(self, **kwargs):
@@ -277,6 +280,7 @@ class Entry:
             )
             return
 
+        event: typing.Optional[EmailEvent] = None
         try:
             with self.lock:
                 event = self.handle_condition(value=kwargs["value"])
