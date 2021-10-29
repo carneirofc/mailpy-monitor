@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import typing
 import logging
+import typing
 
 import pymongo
-import pymongo.database
 import pymongo.collection
+import pymongo.database
 
 logger = logging.getLogger("DB")
 
@@ -14,15 +14,15 @@ class DBConnector:
         self.url = url
         self.client: typing.Optional[pymongo.MongoClient] = None
         self.db_name = db_name
-        self.db: pymongo.database.Database = None
+        self.db: typing.Optional[pymongo.database.Database] = None
 
     def disconnect(self):
-        """ Disconnect """
+        """Disconnect"""
         if self.client:
             self.client.close()
 
     def connect(self) -> pymongo.database.Database:
-        """ Estabilish mongo connection """
+        """Estabilish mongo connection"""
         self.client = pymongo.MongoClient(self.url)
-        self.db: pymongo.database.Database = self.client[self.db_name]
+        self.db = self.client[self.db_name]
         return self.db

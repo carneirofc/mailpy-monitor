@@ -1,22 +1,20 @@
 #!/usr/bin/env python3
+import concurrent.futures
 import logging
+import queue
+import smtplib
 import ssl
 import threading
-import queue
 import time
 import typing
-import concurrent.futures
-
-import smtplib
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import app.entities as entities
 import app.helpers as helpers
-from .message import compose_msg_content
-
 from app.db import make_db
+
+from .message import compose_msg_content
 
 logger = logging.getLogger("SMS")
 

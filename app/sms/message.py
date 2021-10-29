@@ -1,6 +1,6 @@
-import typing
-import time
 import datetime
+import time
+import typing
 
 import app.entities as entities
 

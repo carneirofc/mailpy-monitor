@@ -1,1 +1,1 @@
-from .exceptions import EntryException, DBException
+from .exceptions import DBException, EntryException

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import argparse
-import os
-import sys
-import yaml
 import logging
 import logging.config
+import os
+import sys
+
+import yaml
 
 logger = logging.getLogger()
 
