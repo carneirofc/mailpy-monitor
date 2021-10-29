@@ -1,5 +1,5 @@
 class EmailEvent:
-    """ Email event sent by entry to the SMS queue to signal alarms """
+    """Email event sent by entry to the SMS queue to signal alarms"""
 
     def __init__(
         self,
