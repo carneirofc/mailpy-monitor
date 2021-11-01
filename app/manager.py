@@ -17,13 +17,7 @@ SMS_MAX_QUEUE_SIZE = 50000
 
 
 class Manager:
-    def __init__(
-        self,
-        tls: bool,
-        login: str,
-        passwd: str,
-        db_url: str,
-    ):
+    def __init__(self, tls: bool, login: str, passwd: str, db_url: str):
 
         self.sms_queue: queue.Queue = queue.Queue(maxsize=SMS_MAX_QUEUE_SIZE)
 

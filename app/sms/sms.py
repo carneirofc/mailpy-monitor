@@ -91,11 +91,6 @@ class MailService:
         return msg
 
     def send_email(self, event: entities.EmailEvent):
-        """
-        Send an email
-        :param commons.EmailEvent event: Email content specifics
-        :param MIMEMultipart msg: Message content
-        """
         try:
             self._authenticate()
 
