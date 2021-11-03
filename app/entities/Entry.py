@@ -9,7 +9,12 @@ import epics
 
 from app.helpers import EntryException
 
-from .Condition import ConditionEnums
+from .Condition import (
+    ConditionCheckResponse,
+    ConditionException,
+    create_condition,
+    Condition,
+)
 from .EmailEvent import EmailEvent
 from .Group import Group
 
@@ -20,8 +25,25 @@ class DummyPV:
     def __init__(self, pvname):
         self.pvname = pvname
 
+    @property
+    def value(self):
+        return None
+
     def __str__(self):
         return f"<DummyPV pvname={self.pvname}>"
+
+
+class EntrySettings(typing.NamedTuple):
+    id: str
+    pvname: str
+    emails: str
+    condition: str
+    alarm_values: str
+    unit: str
+    warning_message: str
+    subject: str
+    email_timeout: float
+    group: Group
 
 
 class Entry:
@@ -44,49 +66,50 @@ class Entry:
         group: Group,
         sms_queue: multiprocessing.Queue,
         dummy: bool = False,
+        settings: EntrySettings = None,
     ):
         self._id = id
-        self.pv: typing.Optional[epics.PV] = None
-        self.condition = condition.lower().strip()
-        self.alarm_values = alarm_values
-        self.unit = unit
-        self.warning_message = warning_message
-        self.subject = subject
+        self._pvname = pvname
+        self._pv: typing.Optional[epics.PV] = None
+
+        self._condition: Condition = create_condition(
+            condition=condition.lower().strip(), alarm_values=alarm_values
+        )
+
+        self._dummy = dummy
+        self._pvname = pvname.strip()
+        self._sms_queue_dispatch_lock = threading.RLock()
+
         self.email_timeout = email_timeout
         self.emails = emails
         self.group = group
-        self.lock = threading.RLock()
         self.sms_queue = sms_queue
-        self._dummy = dummy
-        self._pvname = pvname
-
-        self.step_level: int = 0  # Actual level
-        self.step_values: typing.List[float] = []  # Step value according to level
+        self.subject = subject
+        self.unit = unit
+        self.warning_message = warning_message
 
         # reset last_event_time for all PVs, so it start monitoring right away
         self.last_event_time = time.time() - self.email_timeout
 
-        if self.condition == ConditionEnums.OutOfRange:
-            self._init_out_of_range()
-        elif self.condition == ConditionEnums.SuperiorThan:
-            self._init_superior_than()
-        elif self.condition == ConditionEnums.InferiorThan:
-            self._init_inferior_than()
-        elif self.condition == ConditionEnums.IncreasingStep:
-            self._init_increasing_step()
-        else:
-            # @todo: Condition.DecreasingStep condition not supported
-            raise EntryException(f"Invalid condition {self.condition} for entry {self}")
-
-        self.pv = DummyPV(
-            pvname=self._pvname.strip()
-        )  # Create the dummy PV, it will be replaced once the connection is estabilished
+        self._pv = DummyPV(pvname=self.pvname)
 
     def connect(self):
         if not self._dummy:
             # The last action is to create a PV
-            self.pv: epics.PV = epics.PV(pvname=self._pvname.strip())
-            self.pv.add_callback(self.check_alarms)
+            self._pv: epics.PV = epics.PV(pvname=self._pvname.strip())
+            self._pv.add_callback(self.check_alarms)
+
+    @property
+    def pvname(self):
+        return self._pvname
+
+    @property
+    def alarm_values(self):
+        return self.condition.alarm_values
+
+    @property
+    def condition(self):
+        return self._condition.name
 
     @property
     def id(self):
@@ -95,7 +118,7 @@ class Entry:
     def as_dict(self):
         return {
             "id": self.id,
-            "pvname": self.pv.pvname,
+            "pvname": self.pvname,
             "condition": self.condition,
             "alarm_values": self.alarm_values,
             "unit": self.unit,
@@ -106,146 +129,38 @@ class Entry:
             "email_timeout": self.email_timeout,
         }
 
-    def _init_out_of_range(self):
-        _min, _max = self.alarm_values.split(":")
-        self.alarm_min = float(_min)
-        self.alarm_max = float(_max)
-        if self.alarm_min >= self.alarm_max:
-            raise EntryException(
-                f"Cannot create entry for {self.pv.pvname if self.pv else None} with values {self.alarm_values}. Min must be lesser than max"
-            )
-
-    def _init_superior_than(self):
-        self.alarm_max = float(self.alarm_values)
-
-    def _init_inferior_than(self):
-        self.alarm_min = float(self.alarm_values)
-
-    def _init_increasing_step(self):
-        """
-        create two dictionaries, "step_level" and "step":
-         -------------------------------------------------------------------------
-         * step_level:
-             - keys: [int] indexes that contain the 'increasing step' condition
-             - values: [int] represent the current step in the stair, where 0 is
-                       the lowest level, and len(step[i]) is highest level
-            e.g.:
-               value = '1.5:2.0:2.5:3.0'
-               step  = [1.5,2.0,2.5,3.0]
-               len(step) = 4
-
-               3.0 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _  ___Level_4___
-               2.5 _ _ _ _ _ _ _ _ _ _ _ _ _ _ __L3__|
-               2.0 _ _ _ _ _ _ _ _ _ _  __L2__|
-               1.5 _ _ _ _ _ _ _ __L1__|
-                                |
-                                |
-                 0 ___Level_0___|
-
-              -Level 0: lowest level, 0 ~ 1.5 u (normal operation)
-                 ...
-              -Level 4: highest level, 3.0+
-
-          obs.: emails are only sent when moving from any level to a higher one
-         -------------------------------------------------------------------------
-         * step:
-             - keys: [int] indexes that contain the 'increasing step' condition
-             - values: [array of float] represent the steps that triggers mailing
-        """
-        self.step_level = 0  # Current step level
-        self.step_values = [
-            float(val) for val in self.alarm_values.split(":")
-        ]  # Step level border
-
-        s = self.step_values[0]
-        for v in self.step_values[1:]:
-            if s >= v:
-                raise EntryException(
-                    f"Failed to crate entry for {self.pv.pvname}, step values {self.alarm_values} are not sorted"
-                )
-            s = v
-        self.min_level = 0
-        self.max_level = len(self.step_values)
-
     def __str__(self):
-        return f'<Entry={self._id} pvname="{self.pv.pvname if self.pv else None}" group={self.group} condition="{self.condition}" alarm_values={self.alarm_values} emails={self.emails}">'
-
-    def find_next_level(self, value) -> int:
-        loop_level = 0
-        for step_value in self.step_values:
-            # Locate the next level we belong
-            if value < step_value:
-                # If the value is lesser than the next level beginning, we found our current level
-                return loop_level
-            loop_level += 1
-        return loop_level
-
-    def condition_increasing_step(self, value):
-        specified_value_message = None
-        next_step_limiar = self.step_values[self.step_level]
-        if value >= next_step_limiar and (self.step_level + 1) <= self.max_level:
-            # We are going up levels
-            loop_level = self.find_next_level(value)
-            self.step_level = loop_level
-            specified_value_message = f"lower than {self.step_values[0]}{self.unit}"
-
-        if value >= next_step_limiar and self.step_level == self.max_level:
-            # We are already at the maximum level
-            pass
-
-        if value < next_step_limiar and self.step_level == self.min_level:
-            # We are already at the lowest level
-            pass
-
-        if (
-            value < next_step_limiar
-            and self.step_level != self.min_level
-            and value < self.step_values[self.step_level - 1]
-        ):
-            # Going down levels
-            loop_level = self.find_next_level(value)
-            logger.info(
-                f"{self} going down from level {self.step_level} to {loop_level}"
-            )
-            self.step_level = loop_level
-        return specified_value_message
+        return f'<Entry={self._id} pvname="{self.pvname}" group={self.group} condition="{self.condition}" alarm_values={self.alarm_values} emails={self.emails}">'
 
     def handle_condition(self, value) -> typing.Optional[EmailEvent]:
         """
         Handle the alarm condition and return an post a request to the SMS queue.
         """
-        specified_value_message: typing.Optional[str] = None
         event: typing.Optional[EmailEvent] = None
-
-        if self.condition == ConditionEnums.OutOfRange and (
-            value < self.alarm_min or value > self.alarm_max
-        ):
-            specified_value_message = (
-                f"from {self.alarm_min}{self.unit} to {self.alarm_max} {self.unit}"
-            )
-
-        elif self.condition == ConditionEnums.SuperiorThan and value > self.alarm_max:
-            specified_value_message = f"lower than {self.alarm_min}{self.unit}"
-
-        elif self.condition == ConditionEnums.InferiorThan and value < self.alarm_min:
-            specified_value_message = f"higher than {self.alarm_min}{self.unit}"
-
-        elif self.condition == ConditionEnums.IncreasingStep:
-            specified_value_message = self.condition_increasing_step(value)
+        cond_res: typing.Optional[ConditionCheckResponse] = None
 
         try:
-            if specified_value_message:
+            cond_res = self._condition.check_alarm(value)
+        except ConditionException as e:
+            logger.exception(
+                f"Failed to check condition for input '{value}', error {e}"
+            )
+            return None
+
+        if not cond_res:
+            return None
+
+        try:
+            if cond_res:
                 event = EmailEvent(
-                    pvname=self.pv.pvname,
-                    specified_value_message=specified_value_message,
+                    pvname=self.pvname,
+                    specified_value_message=cond_res.message,
                     unit=self.unit,
                     warning=self.warning_message,
                     subject=self.subject,
                     emails=self.emails,
                     condition=self.condition,
-                    value_measured="{:.4}".format(
-                        value
-                    ),  # Consider using prec field from PV
+                    value_measured="{:.4}".format(value),
                 )
 
         except EntryException:
@@ -255,9 +170,14 @@ class Entry:
 
     def trigger(self):
         """Manual trigger"""
-        self.check_alarms(value=self.pv.value)
+        self.check_alarms(value=self._pv.value)
 
-    def check_alarms(self, **kwargs):
+    def is_timeout_active(self):
+        timestamp = time.time()
+        timedelta = timestamp - self.last_event_time
+        return timedelta < self.email_timeout
+
+    def check_alarms(self, ignore_email_timeout=False, **kwargs):
         """
         Define if an alarm check should be performed. Disconnected PVs will are not checked.
         Trigger this function as a callback and within a timer due to the sms timeout. e.g.: Callback may be ignored.
@@ -267,28 +187,34 @@ class Entry:
             logger.debug(f"Ignoring {self} due to disabled group")
             return
 
-        if not self.pv.connected:
-            # @todo: Consider sending an email due to disconnected PV
-            logger.debug(f"Ignoring {self}, PV is disconnected")
+        if not self._pv.connected:
+            logger.info(f"Ignoring {self}, PV is disconnected")
             return
 
-        timestamp = time.time()
-        timedelta = timestamp - self.last_event_time
-        if timedelta < self.email_timeout:
-            logger.info(
-                "Ignoring {}, timeout still active for {:.2}s".format(self, timedelta)
-            )
+        if self.is_timeout_active() and not ignore_email_timeout:
+            logger.info(f"Ignoring event from {self}, timeout still active.")
             return
 
-        event: typing.Optional[EmailEvent] = None
         try:
-            with self.lock:
-                event = self.handle_condition(value=kwargs["value"])
+            event = self.handle_condition(value=kwargs["value"])
+            if not event:
+                return
 
-                if event:
-                    self.sms_queue.put(event, block=False, timeout=None)
-                    self.last_event_time = timestamp
-                    logger.info(f"New event {event}")
+            self.dispatch_alarm_event(event)
+
+        except Exception as e:
+            logger.exception(f"Unexpected exception when handling PV event '{e}'.")
+
+    def dispatch_alarm_event(self, event: EmailEvent):
+        if not event:
+            logger.error(f"Cannot dispatch empty event {event} from entry {self}")
+            return
+
+        try:
+            with self._sms_queue_dispatch_lock:  # Lock used to maintain the last_event_time in sync with the queue
+                logger.info(f"New event '{event}' being dispatched from {self}")
+                self.sms_queue.put(event, block=False, timeout=None)
+                self.last_event_time = time.time()
 
         except queue.Full:
             logger.exception(

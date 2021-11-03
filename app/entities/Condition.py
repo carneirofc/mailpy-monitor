@@ -46,13 +46,25 @@ class ConditionCheckResponse(typing.NamedTuple):
 
 class Condition:
     def __init__(self, limits: str) -> None:
-        pass
+        self._limits = limits
+
+    @property
+    def alarm_values(self) -> str:
+        return self._limits
+
+    @property
+    def name(self) -> str:
+        raise NotImplementedError("Child class must impplement this method")
 
     def check_alarm(self, value: typing.Any) -> typing.Optional[ConditionCheckResponse]:
         raise NotImplementedError("Child class must impplement this method")
 
 
 class ConditionInferiorThan(Condition):
+    @property
+    def name(self) -> str:
+        return ConditionEnums.InferiorThan
+
     def __init__(self, limits: str) -> None:
         super().__init__(limits)
         self.alarm_limit: float
@@ -83,6 +95,10 @@ class ConditionSuperiorThan(Condition):
         self.alarm_limit: float
         self._parse_limits(limits)
 
+    @property
+    def name(self) -> str:
+        return ConditionEnums.SuperiorThan
+
     def _parse_limits(self, limits):
         if not limits or type(limits) != str:
             raise ConditionException(f"Cannot create condition with limits '{limits}'")
@@ -109,6 +125,10 @@ class ConditionOutOfRange(Condition):
         self.alarm_max: float
 
         self._parse_limits(limits)
+
+    @property
+    def name(self) -> str:
+        return ConditionEnums.OutOfRange
 
     def _parse_limits(self, limits):
         if not limits or type(limits) != str:
@@ -182,6 +202,10 @@ class ConditionIncreasingStep(Condition):
         self.max_level = -1
 
         self._parse_limits(limits=limits)
+
+    @property
+    def name(self) -> str:
+        return ConditionEnums.IncreasingStep
 
     def _parse_limits(self, limits: str):
         self.step_level = 0  # Current step level
