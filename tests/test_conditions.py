@@ -13,6 +13,12 @@ from app.entities.Condition import (
 
 
 class AlarmConditionTest(unittest.TestCase):
+    def check_condition_inputs(self, condition):
+        wrong_inputs = ["!@#", "asf", "123", [], {}, ()]
+        for input in wrong_inputs:
+            with self.assertRaises(ConditionException):
+                condition.check_alarm(input)
+
     def test_condition_factory(self):
         for condition_str in [
             "out of range",
@@ -28,14 +34,16 @@ class AlarmConditionTest(unittest.TestCase):
                 create_condition(condition=condition_str, alarm_values=None)
 
     def test_increasing_step(self):
-
+        alarm_values = "0:1:2:3"
         condition: ConditionIncreasingStep = create_condition(
-            condition=ConditionEnums.IncreasingStep, alarm_values="0:1:2:3"
+            condition=ConditionEnums.IncreasingStep, alarm_values=alarm_values
         )
+        self.assertEqual(condition.alarm_values, alarm_values)
 
         self.assertIsInstance(condition, Condition)
         self.assertIsInstance(condition, ConditionIncreasingStep)
         self.check_condition_inputs(condition)
+        self.assertEqual(condition.name, ConditionEnums.IncreasingStep)
 
         invalid_values = ["1:2:3:3", "0.12:-2", ":1:2", "1:1:2:3", "3:2.:1", "-2::3"]
         for alarm_value in invalid_values:
@@ -80,12 +88,6 @@ class AlarmConditionTest(unittest.TestCase):
                 self.assertIsNone(_alarm_check)
             self.assertEqual(expected_level, condition.step_level)
 
-    def check_condition_inputs(self, condition):
-        wrong_inputs = ["!@#", "asf", "123", [], {}, ()]
-        for input in wrong_inputs:
-            with self.assertRaises(ConditionException):
-                condition.check_alarm(input)
-
     def test_inferior_than(self):
         alarm = 10
         condition = create_condition(
@@ -93,6 +95,8 @@ class AlarmConditionTest(unittest.TestCase):
         )
         self.assertIsInstance(condition, Condition)
         self.assertIsInstance(condition, ConditionInferiorThan)
+        self.assertEqual(condition.name, ConditionEnums.InferiorThan)
+        self.assertEqual(condition.alarm_values, str(alarm))
         self.check_condition_inputs(condition)
 
         self.assertIsNone(condition.check_alarm(alarm))
@@ -105,8 +109,10 @@ class AlarmConditionTest(unittest.TestCase):
         condition = create_condition(
             condition=ConditionEnums.SuperiorThan, alarm_values=str(alarm)
         )
+        self.assertEqual(condition.alarm_values, str(alarm))
         self.assertIsInstance(condition, Condition)
         self.assertIsInstance(condition, ConditionSuperiorThan)
+        self.assertEqual(condition.name, ConditionEnums.SuperiorThan)
         self.check_condition_inputs(condition)
 
         self.assertIsNone(condition.check_alarm(alarm))
@@ -121,6 +127,8 @@ class AlarmConditionTest(unittest.TestCase):
         condition = create_condition(
             condition=ConditionEnums.OutOfRange, alarm_values=alarm_str
         )
+        self.assertEqual(condition.alarm_values, alarm_str)
+        self.assertEqual(condition.name, ConditionEnums.OutOfRange)
         self.check_condition_inputs(condition)
 
         self.assertIsInstance(condition, Condition)
@@ -132,37 +140,3 @@ class AlarmConditionTest(unittest.TestCase):
 
         self.assertIsNotNone(condition.check_alarm(alarm_min - 1))
         self.assertIsNotNone(condition.check_alarm(alarm_max + 1))
-
-    # self.entry_data = {
-    # id: str,
-    # pvname: str,
-    # emails: str,
-    # condition: str,
-    # alarm_values: str,
-    # unit: str,
-    # warning_message: str,
-    # subject: str,
-    # email_timeout: float,
-    # group: Group,
-    # sms_queue: multiprocessing.Queue,
-    # dummy: bool = False,
-    # }
-
-    # group = Group(
-    #    description="Test Group", enabled=True, id="_gid", name="TestGroup"
-    # )
-    # entry = Entry(
-    #    id="_id",
-    #    pvname="TestPV",
-    #    emails="email1:email2:email3",
-    #    condition=ConditionEnums.SuperiorThan,
-    #    alarm_values="20",
-    #    dummy=True,
-    #    email_timeout=0,
-    #    group=group,
-    #    sms_queue=None,
-    #    subject="subject message 1",
-    #    unit="U",
-    #    warning_message="warning message",
-    # )
-    # entry.handle_condition()

@@ -70,6 +70,7 @@ class SMSApp:
                 d_entry.pop(
                     "group", None
                 )  # Remove the group name as we are using the object
+                # settings = entities.Entry
 
                 entry = entities.Entry(
                     group=self.groups[group_name], sms_queue=self.sms_queue, **d_entry
