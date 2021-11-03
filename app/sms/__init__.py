@@ -1,3 +1,3 @@
-from .sms import SMSApp
+from .sms import MailService
 
-__all__ = ["SMSApp"]
+__all__ = ["MailService"]

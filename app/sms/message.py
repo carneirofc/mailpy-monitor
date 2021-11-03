@@ -5,16 +5,8 @@ import typing
 import app.entities as entities
 
 
-def compose_msg_content(event: entities.EmailEvent) -> typing.Tuple[str, str]:
-    """
-    @return (text, html)
-    """
-    timestamp = time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
-    utc_ts = "{}Z".format(
-        datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
-    )
-    # creating the plain-text format of the message
-    text = f"""{event.warning}\n
+def _compose_text(event: entities.EmailEvent, utc_ts: str, timestamp: str):
+    return f"""{event.warning}\n
      - PV name:         {event.pvname}
      - Specified range: {event.specified_value_message}
      - Value measured:  {event.value_measured} {event.unit}
@@ -27,7 +19,9 @@ def compose_msg_content(event: entities.EmailEvent) -> typing.Tuple[str, str]:
 
      Controls Group\n"""
 
-    html = f"""\
+
+def _compose_html(event: entities.EmailEvent, utc_ts: str, timestamp: str):
+    return f"""\
         <html>
             <body>
                 <p> {event.warning} <br>
@@ -45,7 +39,20 @@ def compose_msg_content(event: entities.EmailEvent) -> typing.Tuple[str, str]:
                     GAS - Automação e Software
                 </p>
             </body>
-        </html>
-        """
+        </html>"""
 
+
+def compose_msg_content(event: entities.EmailEvent) -> typing.Tuple[str, str]:
+    """
+    @return (text, html)
+    """
+    timestamp = time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
+    utc_ts = "{}Z".format(
+        datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+    )
+
+    # creating the plain-text format of the message
+    text = _compose_text(event, utc_ts, timestamp)
+
+    html = _compose_html(event, utc_ts, timestamp)
     return text, html

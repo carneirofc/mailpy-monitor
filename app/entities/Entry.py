@@ -158,7 +158,7 @@ class Entry:
                     unit=self.unit,
                     warning=self.warning_message,
                     subject=self.subject,
-                    emails=self.emails,
+                    emails=self.emails.strip().split(";"),
                     condition=self.condition,
                     value_measured="{:.4}".format(value),
                 )
