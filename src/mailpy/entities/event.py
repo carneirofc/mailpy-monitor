@@ -53,6 +53,8 @@ def create_alarm_event(
     condition: str,
     value_measured: typing.Any,
 ) -> AlarmEvent:
+    if type(emails) != list:
+        raise Exception(f"Cannot create_alarm_event, invalid emails type {emails}")
 
     return AlarmEvent(
         type=EventType.ALARM,

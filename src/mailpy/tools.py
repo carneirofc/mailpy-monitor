@@ -162,7 +162,7 @@ class MongoJsonLoader:
         return EntryData(
             id=d["_id"]["$oid"],
             pvname=d["pvname"].strip(),
-            emails=d["emails"].split(":"),
+            emails=d["emails"].split(";"),
             condition=d["condition"].strip(),
             alarm_values=d["alarm_values"].strip(),
             unit=d["unit"].strip(),

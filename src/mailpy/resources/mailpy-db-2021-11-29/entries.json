@@ -669,7 +669,7 @@
 	"condition": "out of range",
 	"alarm_values": "17.5:22.5",
 	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
+	"emails": "claudio.carneiro@cnpem.br;claudio.carneiro@cnpem.br",
 	"group": "TempK2",
 	"warning_message": "Warning: Klystron 2 (Oil-tank) water temperature exceeded its limits!",
 	"subject": "Linac K2 (Oil-tank) Water Temperature Warning",

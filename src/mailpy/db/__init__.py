@@ -43,10 +43,12 @@ class DBManager:
         )
 
     def _parse_entry(self, data: typing.Any) -> EntryData:
+        # We trimm before and after splitting
+        emails = [e.strip() for e in data["emails"].strip().split(";")]
         return EntryData(
             id=str(data["_id"]),
             pvname=data["pvname"].strip(),
-            emails=data["emails"].strip().split(":"),
+            emails=emails,
             condition=data["condition"].strip(),
             alarm_values=data["alarm_values"].strip(),
             unit=data["unit"].strip(),
