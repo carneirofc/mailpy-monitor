@@ -10,161 +10,10 @@
 	"group": "TempK1",
 	"warning_message": "Warning: Klystron 1 (Body) water temperature exceeded its limits!",
 	"subject": "Linac K1 (Body) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f5996"
-	},
-	"pvname": "LA-CN:H1MPS-1:K1Temp2",
-	"condition": "out of range",
-	"alarm_values": "17.0:22.0",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK1",
-	"warning_message": "Warning: Klystron 1 (Waveguide) water temperature exceeded its limits!",
-	"subject": "Linac K1 (Waveguide) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f5997"
-	},
-	"pvname": "LA-CN:H1MPS-1:K1Temp3",
-	"condition": "out of range",
-	"alarm_values": "17.5:22.5",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK1",
-	"warning_message": "Warning: Klystron 1 (Oil-tank) water temperature exceeded its limits!",
-	"subject": "Linac K1 (Oil-tank) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f5998"
-	},
-	"pvname": "LA-CN:H1MPS-1:K1Temp4",
-	"condition": "out of range",
-	"alarm_values": "19.5:24.5",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK1",
-	"warning_message": "Warning: Klystron 1 (Focus-coil) water temperature exceeded its limits!",
-	"subject": "Linac K1 (Focus-coil) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f5999"
-	},
-	"pvname": "LA-CN:H1MPS-1:K1Temp6",
-	"condition": "out of range",
-	"alarm_values": "17.5:22.5",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK1",
-	"warning_message": "Warning: Klystron 1 (Test load) temperature exceeded its limits!",
-	"subject": "Linac K1 (Test load) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f599a"
-	},
-	"pvname": "LA-CN:H1MPS-1:K2Temp1",
-	"condition": "out of range",
-	"alarm_values": "17.0:22.0",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK2",
-	"warning_message": "Warning: Klystron 2 (Body) water temperature exceeded its limits!",
-	"subject": "Linac K2 (Body) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f599b"
-	},
-	"pvname": "LA-CN:H1MPS-1:K2Temp2",
-	"condition": "out of range",
-	"alarm_values": "17.5:22.5",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK2",
-	"warning_message": "Warning: Klystron 2 (Waveguide) water temperature exceeded its limits!",
-	"subject": "Linac K2 (Waveguide) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f599c"
-	},
-	"pvname": "LA-CN:H1MPS-1:K2Temp3",
-	"condition": "out of range",
-	"alarm_values": "17.5:22.5",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK2",
-	"warning_message": "Warning: Klystron 2 (Oil-tank) water temperature exceeded its limits!",
-	"subject": "Linac K2 (Oil-tank) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f599d"
-	},
-	"pvname": "LA-CN:H1MPS-1:K2Temp4",
-	"condition": "out of range",
-	"alarm_values": "19.0:24.0",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK2",
-	"warning_message": "Warning: Klystron 2 (Focus-coil) water temperature exceeded its limits!",
-	"subject": "Linac K2 (Focus-coil) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f599e"
-	},
-	"pvname": "LA-CN:H1MPS-1:K2Temp6",
-	"condition": "out of range",
-	"alarm_values": "17.0:22.0",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempK2",
-	"warning_message": "Warning: Klystron 2 (Test load) temperature exceeded its limits!",
-	"subject": "Linac K2 (Test load) Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f599f"
-	},
-	"pvname": "LA-CN:H1MPS-1:A1Temp1",
-	"condition": "out of range",
-	"alarm_values": "44:46",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempAS",
-	"warning_message": "Warning: Linac Accelerating Structure (A1-1) water temperature exceeded its limits!",
-	"subject": "Linac A1-1 Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f59a0"
-	},
-	"pvname": "LA-CN:H1MPS-1:A1Temp2",
-	"condition": "out of range",
-	"alarm_values": "44:46",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempAS",
-	"warning_message": "Warning: Linac Accelerating Structure (A1-2) water temperature exceeded its limits!",
-	"subject": "Linac A1-2 Water Temperature Warning",
-	"email_timeout": 3600
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa82"
+	}
 },
 {
 	"_id": {
@@ -178,7 +27,27 @@
 	"group": "TempAS",
 	"warning_message": "Warning: Linac Accelerating Structure (A2-1) water temperature exceeded its limits!",
 	"subject": "Linac A2-1 Water Temperature Warning",
-	"email_timeout": 3600
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59a0"
+	},
+	"pvname": "LA-CN:H1MPS-1:A1Temp2",
+	"condition": "out of range",
+	"alarm_values": "44:46",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempAS",
+	"warning_message": "Warning: Linac Accelerating Structure (A1-2) water temperature exceeded its limits!",
+	"subject": "Linac A1-2 Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
 },
 {
 	"_id": {
@@ -192,21 +61,27 @@
 	"group": "TempAS",
 	"warning_message": "Warning: Linac Accelerating Structure (A2-2) water temperature exceeded its limits!",
 	"subject": "Linac A2-2 Water Temperature Warning",
-	"email_timeout": 3600
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
 },
 {
 	"_id": {
-		"$oid": "601db31ae86515532d2f59a3"
+		"$oid": "601db31ae86515532d2f5999"
 	},
-	"pvname": "LA-CN:H1MPS-1:A3Temp1",
+	"pvname": "LA-CN:H1MPS-1:K1Temp6",
 	"condition": "out of range",
-	"alarm_values": "43.5:45.5",
+	"alarm_values": "17.5:22.5",
 	"unit": "°C",
 	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempAS",
-	"warning_message": "Warning: Linac Accelerating Structure (A3-1) water temperature exceeded its limits!",
-	"subject": "Linac A3-1 Water Temperature Warning",
-	"email_timeout": 3600
+	"group": "TempK1",
+	"warning_message": "Warning: Klystron 1 (Test load) temperature exceeded its limits!",
+	"subject": "Linac K1 (Test load) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa82"
+	}
 },
 {
 	"_id": {
@@ -220,21 +95,10 @@
 	"group": "TempAS",
 	"warning_message": "Warning: Linac Accelerating Structure (A3-2) water temperature exceeded its limits!",
 	"subject": "Linac A3-2 Water Temperature Warning",
-	"email_timeout": 3600
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f59a5"
-	},
-	"pvname": "LA-CN:H1MPS-1:A4Temp1",
-	"condition": "out of range",
-	"alarm_values": "43:45",
-	"unit": "°C",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "TempAS",
-	"warning_message": "Warning: Linac Accelerating Structure (A4-1) water temperature exceeded its limits!",
-	"subject": "Linac A4-1 Water Temperature Warning",
-	"email_timeout": 3600
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
 },
 {
 	"_id": {
@@ -248,7 +112,27 @@
 	"group": "TempAS",
 	"warning_message": "Warning: Linac Accelerating Structure (A4-2) water temperature exceeded its limits!",
 	"subject": "Linac A4-2 Water Temperature Warning",
-	"email_timeout": 3600
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59a5"
+	},
+	"pvname": "LA-CN:H1MPS-1:A4Temp1",
+	"condition": "out of range",
+	"alarm_values": "43:45",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempAS",
+	"warning_message": "Warning: Linac Accelerating Structure (A4-1) water temperature exceeded its limits!",
+	"subject": "Linac A4-1 Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
 },
 {
 	"_id": {
@@ -262,7 +146,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Berthold total dose rate exceeded its limits!",
 	"subject": "Berthold Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -276,7 +163,27 @@
 	"group": "RAD",
 	"warning_message": "Warning: ELSE total dose rate exceeded its limits!",
 	"subject": "ELSE Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59a3"
+	},
+	"pvname": "LA-CN:H1MPS-1:A3Temp1",
+	"condition": "out of range",
+	"alarm_values": "43.5:45.5",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempAS",
+	"warning_message": "Warning: Linac Accelerating Structure (A3-1) water temperature exceeded its limits!",
+	"subject": "Linac A3-1 Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
 },
 {
 	"_id": {
@@ -290,7 +197,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 1 total dose rate exceeded its limits!",
 	"subject": "Thermo 1 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -304,7 +214,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 2 total dose rate exceeded its limits!",
 	"subject": "Thermo 2 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -318,7 +231,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 3 total dose rate exceeded its limits!",
 	"subject": "Thermo 3 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -332,49 +248,44 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 4 total dose rate exceeded its limits!",
 	"subject": "Thermo 4 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
-		"$oid": "601db31ae86515532d2f59ad"
+		"$oid": "601db31ae86515532d2f599a"
 	},
-	"pvname": "RAD:Thermo5:TotalDoseRate:Dose",
-	"condition": "increasing step",
-	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
-	"unit": "µSv",
+	"pvname": "LA-CN:H1MPS-1:K2Temp1",
+	"condition": "out of range",
+	"alarm_values": "17.0:22.0",
+	"unit": "°C",
 	"emails": "claudio.carneiro@cnpem.br",
-	"group": "RAD",
-	"warning_message": "Warning: Thermo 5 total dose rate exceeded its limits!",
-	"subject": "Thermo 5 Total Dose Rate Warning",
-	"email_timeout": 0
+	"group": "TempK2",
+	"warning_message": "Warning: Klystron 2 (Body) water temperature exceeded its limits!",
+	"subject": "Linac K2 (Body) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa88"
+	}
 },
 {
 	"_id": {
-		"$oid": "601db31ae86515532d2f59ae"
+		"$oid": "601db31ae86515532d2f5996"
 	},
-	"pvname": "RAD:Thermo6:TotalDoseRate:Dose",
-	"condition": "increasing step",
-	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
-	"unit": "µSv",
+	"pvname": "LA-CN:H1MPS-1:K1Temp2",
+	"condition": "out of range",
+	"alarm_values": "17.0:22.0",
+	"unit": "°C",
 	"emails": "claudio.carneiro@cnpem.br",
-	"group": "RAD",
-	"warning_message": "Warning: Thermo 6 total dose rate exceeded its limits!",
-	"subject": "Thermo 6 Total Dose Rate Warning",
-	"email_timeout": 0
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f59af"
-	},
-	"pvname": "RAD:Thermo7:TotalDoseRate:Dose",
-	"condition": "increasing step",
-	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
-	"unit": "µSv",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "RAD",
-	"warning_message": "Warning: Thermo 7 total dose rate exceeded its limits!",
-	"subject": "Thermo 7 Total Dose Rate Warning",
-	"email_timeout": 0
+	"group": "TempK1",
+	"warning_message": "Warning: Klystron 1 (Waveguide) water temperature exceeded its limits!",
+	"subject": "Linac K1 (Waveguide) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa82"
+	}
 },
 {
 	"_id": {
@@ -388,7 +299,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 8 total dose rate exceeded its limits!",
 	"subject": "Thermo 8 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -402,7 +316,27 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 9 total dose rate exceeded its limits!",
 	"subject": "Thermo 9 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59ad"
+	},
+	"pvname": "RAD:Thermo5:TotalDoseRate:Dose",
+	"condition": "increasing step",
+	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
+	"unit": "µSv",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "RAD",
+	"warning_message": "Warning: Thermo 5 total dose rate exceeded its limits!",
+	"subject": "Thermo 5 Total Dose Rate Warning",
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -416,7 +350,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 10 total dose rate exceeded its limits!",
 	"subject": "Thermo 10 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -430,21 +367,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 11 total dose rate exceeded its limits!",
 	"subject": "Thermo 11 Total Dose Rate Warning",
-	"email_timeout": 0
-},
-{
-	"_id": {
-		"$oid": "601db31ae86515532d2f59b4"
-	},
-	"pvname": "RAD:Thermo12:TotalDoseRate:Dose",
-	"condition": "increasing step",
-	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
-	"unit": "µSv",
-	"emails": "claudio.carneiro@cnpem.br",
-	"group": "RAD",
-	"warning_message": "Warning: Thermo 12 total dose rate exceeded its limits!",
-	"subject": "Thermo 12 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -458,7 +384,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 13 total dose rate exceeded its limits!",
 	"subject": "Thermo 13 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -472,7 +401,27 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 14 total dose rate exceeded its limits!",
 	"subject": "Thermo 14 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59b4"
+	},
+	"pvname": "RAD:Thermo12:TotalDoseRate:Dose",
+	"condition": "increasing step",
+	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
+	"unit": "µSv",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "RAD",
+	"warning_message": "Warning: Thermo 12 total dose rate exceeded its limits!",
+	"subject": "Thermo 12 Total Dose Rate Warning",
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -486,7 +435,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 15 total dose rate exceeded its limits!",
 	"subject": "Thermo 15 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -500,7 +452,10 @@
 	"group": "RAD",
 	"warning_message": "Warning: Thermo 16 total dose rate exceeded its limits!",
 	"subject": "Thermo 16 Total Dose Rate Warning",
-	"email_timeout": 0
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 },
 {
 	"_id": {
@@ -514,7 +469,10 @@
 	"group": "UPS",
 	"warning_message": "Warning: Connectivity Room UPS is on battery!",
 	"subject": "UPS Connectivity on Battery",
-	"email_timeout": 1800
+	"email_timeout": 1800,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aaaa"
+	}
 },
 {
 	"_id": {
@@ -528,7 +486,10 @@
 	"group": "UPS",
 	"warning_message": "Warning: Connectivity Room UPS is with low battery!",
 	"subject": "UPS Connectivity – Low Battery",
-	"email_timeout": 1800
+	"email_timeout": 1800,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aaaa"
+	}
 },
 {
 	"_id": {
@@ -542,7 +503,10 @@
 	"group": "UPSLinac1",
 	"warning_message": "Warning: Linac Room UPS is on battery! - Rack 01",
 	"subject": "UPS Linac01 on Battery",
-	"email_timeout": 1800
+	"email_timeout": 1800,
+	"group_id": {
+		"$oid": "5ff4a4e8245b2ba9b3e1aaad"
+	}
 },
 {
 	"_id": {
@@ -556,21 +520,95 @@
 	"group": "UPSLinac3",
 	"warning_message": "Warning: Linac Room UPS is on battery! - Rack 03",
 	"subject": "UPS Linac03 on Battery",
-	"email_timeout": 1800
+	"email_timeout": 1800,
+	"group_id": {
+		"$oid": "5ff4a4e8245b2ba9b3e1aaaf"
+	}
 },
 {
 	"_id": {
-		"$oid": "601db31ae86515532d2f59bd"
+		"$oid": "601db31ae86515532d2f5998"
 	},
-	"pvname": "UPS:Linac01:BatCapacity-Mon",
-	"condition": "inferior than",
-	"alarm_values": "30.0",
-	"unit": "%",
+	"pvname": "LA-CN:H1MPS-1:K1Temp4",
+	"condition": "out of range",
+	"alarm_values": "19.5:24.5",
+	"unit": "°C",
 	"emails": "claudio.carneiro@cnpem.br",
-	"group": "UPSLinac1",
-	"warning_message": "Warning: Linac Room UPS is with low battery, lower than 30%! - Rack 01",
-	"subject": "UPS Linac01 – Low Battery",
-	"email_timeout": 600
+	"group": "TempK1",
+	"warning_message": "Warning: Klystron 1 (Focus-coil) water temperature exceeded its limits!",
+	"subject": "Linac K1 (Focus-coil) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa82"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f5997"
+	},
+	"pvname": "LA-CN:H1MPS-1:K1Temp3",
+	"condition": "out of range",
+	"alarm_values": "17.5:22.5",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempK1",
+	"warning_message": "Warning: Klystron 1 (Oil-tank) water temperature exceeded its limits!",
+	"subject": "Linac K1 (Oil-tank) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa82"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f599e"
+	},
+	"pvname": "LA-CN:H1MPS-1:K2Temp6",
+	"condition": "out of range",
+	"alarm_values": "17.0:22.0",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempK2",
+	"warning_message": "Warning: Klystron 2 (Test load) temperature exceeded its limits!",
+	"subject": "Linac K2 (Test load) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa88"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59af"
+	},
+	"pvname": "RAD:Thermo7:TotalDoseRate:Dose",
+	"condition": "increasing step",
+	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
+	"unit": "µSv",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "RAD",
+	"warning_message": "Warning: Thermo 7 total dose rate exceeded its limits!",
+	"subject": "Thermo 7 Total Dose Rate Warning",
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f599b"
+	},
+	"pvname": "LA-CN:H1MPS-1:K2Temp2",
+	"condition": "out of range",
+	"alarm_values": "17.5:22.5",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempK2",
+	"warning_message": "Warning: Klystron 2 (Waveguide) water temperature exceeded its limits!",
+	"subject": "Linac K2 (Waveguide) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa88"
+	}
 },
 {
 	"_id": {
@@ -584,6 +622,94 @@
 	"group": "UPSLinac3",
 	"warning_message": "Warning: Linac Room UPS is with low battery, lower than 30%! - Rack 03",
 	"subject": "UPS Linac03 – Low Battery",
-	"email_timeout": 600
+	"email_timeout": 600,
+	"group_id": {
+		"$oid": "5ff4a4e8245b2ba9b3e1aaaf"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f599d"
+	},
+	"pvname": "LA-CN:H1MPS-1:K2Temp4",
+	"condition": "out of range",
+	"alarm_values": "19.0:24.0",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempK2",
+	"warning_message": "Warning: Klystron 2 (Focus-coil) water temperature exceeded its limits!",
+	"subject": "Linac K2 (Focus-coil) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa88"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f599f"
+	},
+	"pvname": "LA-CN:H1MPS-1:A1Temp1",
+	"condition": "out of range",
+	"alarm_values": "44:46",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempAS",
+	"warning_message": "Warning: Linac Accelerating Structure (A1-1) water temperature exceeded its limits!",
+	"subject": "Linac A1-1 Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa8e"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f599c"
+	},
+	"pvname": "LA-CN:H1MPS-1:K2Temp3",
+	"condition": "out of range",
+	"alarm_values": "17.5:22.5",
+	"unit": "°C",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "TempK2",
+	"warning_message": "Warning: Klystron 2 (Oil-tank) water temperature exceeded its limits!",
+	"subject": "Linac K2 (Oil-tank) Water Temperature Warning",
+	"email_timeout": 3600,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa88"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59bd"
+	},
+	"pvname": "UPS:Linac01:BatCapacity-Mon",
+	"condition": "inferior than",
+	"alarm_values": "30.0",
+	"unit": "%",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "UPSLinac1",
+	"warning_message": "Warning: Linac Room UPS is with low battery, lower than 30%! - Rack 01",
+	"subject": "UPS Linac01 – Low Battery",
+	"email_timeout": 600,
+	"group_id": {
+		"$oid": "5ff4a4e8245b2ba9b3e1aaad"
+	}
+},
+{
+	"_id": {
+		"$oid": "601db31ae86515532d2f59ae"
+	},
+	"pvname": "RAD:Thermo6:TotalDoseRate:Dose",
+	"condition": "increasing step",
+	"alarm_values": "1.0:1.5:2.0:2.5:3.0:3.5:4.0:4.5:5.0",
+	"unit": "µSv",
+	"emails": "claudio.carneiro@cnpem.br",
+	"group": "RAD",
+	"warning_message": "Warning: Thermo 6 total dose rate exceeded its limits!",
+	"subject": "Thermo 6 Total Dose Rate Warning",
+	"email_timeout": 0,
+	"group_id": {
+		"$oid": "5ff4a4e7245b2ba9b3e1aa97"
+	}
 }]
 
