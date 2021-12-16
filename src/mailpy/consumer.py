@@ -50,7 +50,7 @@ class EmailConsumer(BaseEventConsumer):
         super().__init__(name="EmailConsumer")
         self.mail_client = MailClient(
             args=mail_client_args,
-            debug_level=0,
+            debug_level=1,
         )
 
     def handle(self, obj):

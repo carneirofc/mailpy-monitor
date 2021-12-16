@@ -153,9 +153,9 @@ class MailClient:
             )
             return
 
-        self._server.sendmail(
+        response = self._server.sendmail(
             from_addr=self._login,
             to_addrs=event.emails,
             msg=self._compose_msg(event).as_string(),
         )
-        logger.info(f"Email sent with success, event {event}")
+        logger.info(f"Email sent with success, event {event} {response}")
