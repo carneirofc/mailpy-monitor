@@ -7,9 +7,12 @@ logger = logging.getLogger()
 
 
 def start_test_database():
+    parser = argparse.ArgumentParser("Start a mongodb container for testing purposes")
+    parser.parse_args()
+
     import mailpy.tools
 
-    logging.load_config()
+    logging.load_config_console()
 
     parser = argparse.ArgumentParser(
         description="Start a dummy mongodb with some test data"
