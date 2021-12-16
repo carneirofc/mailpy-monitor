@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   mail:
-    image: carneirofc/mailpy-monitor:423cb22-2021-12-09
+    image: carneirofc/mailpy-monitor:5fa0a7f-2021-12-16
     build: .
     network_mode: host
     environment:
@@ -12,3 +12,5 @@ services:
       MAIL_SERVER_PORT: mail_server_port_
       MAIL_SERVER_HOST: mail_server_hostname_or_ip
 
+# db: # NOTE: mongodb and schema
+#   image: docker.io/carneirofc/mailpy-db:5fa0a7f-2021-12-16
