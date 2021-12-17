@@ -1,0 +1,171 @@
+[{
+        "_id": {
+                "$oid": "61b8acf86073f6ac39a16f92"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-14T14:40:56.837Z"
+        },
+        "pvname": "LA-CN:H1MPS-1:K1Temp4",
+        "specified_value_message": "from 19.5 to 24.5",
+        "unit": "°C",
+        "subject": "Linac K1 (Focus-coil) Water Temperature Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Klystron 1 (Focus-coil) water temperature exceeded its limits!",
+        "condition": "out of range",
+        "value_measured": "24.61"
+},
+{
+        "_id": {
+                "$oid": "61b8ad026073f6ac39a16f93"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-14T14:41:06.785Z"
+        },
+        "pvname": "LA-CN:H1MPS-1:K2Temp4",
+        "specified_value_message": "from 19.0 to 24.0",
+        "unit": "°C",
+        "subject": "Linac K2 (Focus-coil) Water Temperature Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Klystron 2 (Focus-coil) water temperature exceeded its limits!",
+        "condition": "out of range",
+        "value_measured": "24.03"
+},
+{
+        "_id": {
+                "$oid": "61b8c4ca6073f6ac39a16f94"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-14T16:22:34.227Z"
+        },
+        "pvname": "RAD:Thermo15:TotalDoseRate:Dose",
+        "specified_value_message": "level (1), values between 1.0 and 1.5",
+        "unit": "µSv",
+        "subject": "Thermo 15 Total Dose Rate Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Thermo 15 total dose rate exceeded its limits!",
+        "condition": "increasing step",
+        "value_measured": "1.0"
+},
+{
+        "_id": {
+                "$oid": "61b8e234331dd6a7a990b54b"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-14T18:28:04.664Z"
+        },
+        "pvname": "RAD:Thermo15:TotalDoseRate:Dose",
+        "specified_value_message": "level (1), values between 1.0 and 1.5",
+        "unit": "µSv",
+        "subject": "Thermo 15 Total Dose Rate Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Thermo 15 total dose rate exceeded its limits!",
+        "condition": "increasing step",
+        "value_measured": "1.036"
+},
+{
+        "_id": {
+                "$oid": "61bb1d3b331dd6a7a990b54c"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-16T11:04:27.696Z"
+        },
+        "pvname": "RAD:Thermo9:TotalDoseRate:Dose",
+        "specified_value_message": "level (1), values between 1.0 and 1.5",
+        "unit": "µSv",
+        "subject": "Thermo 9 Total Dose Rate Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Thermo 9 total dose rate exceeded its limits!",
+        "condition": "increasing step",
+        "value_measured": "1.012"
+},
+{
+        "_id": {
+                "$oid": "61bb2168331dd6a7a990b54d"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-16T11:22:16.676Z"
+        },
+        "pvname": "RAD:Thermo9:TotalDoseRate:Dose",
+        "specified_value_message": "level (2), values between 1.5 and 2.0",
+        "unit": "µSv",
+        "subject": "Thermo 9 Total Dose Rate Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Thermo 9 total dose rate exceeded its limits!",
+        "condition": "increasing step",
+        "value_measured": "1.5"
+},
+{
+        "_id": {
+                "$oid": "61bb2b0c331dd6a7a990b54e"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-16T12:03:24.217Z"
+        },
+        "pvname": "RAD:Thermo15:TotalDoseRate:Dose",
+        "specified_value_message": "level (1), values between 1.0 and 1.5",
+        "unit": "µSv",
+        "subject": "Thermo 15 Total Dose Rate Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Thermo 15 total dose rate exceeded its limits!",
+        "condition": "increasing step",
+        "value_measured": "1.0"
+},
+{
+        "_id": {
+                "$oid": "61bb60a6331dd6a7a990b54f"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-16T15:52:06.685Z"
+        },
+        "pvname": "RAD:Thermo9:TotalDoseRate:Dose",
+        "specified_value_message": "level (1), values between 1.0 and 1.5",
+        "unit": "µSv",
+        "subject": "Thermo 9 Total Dose Rate Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Thermo 9 total dose rate exceeded its limits!",
+        "condition": "increasing step",
+        "value_measured": "1.0"
+},
+{
+        "_id": {
+                "$oid": "61bb69ad331dd6a7a990b550"
+        },
+        "type": 0,
+        "ts": {
+                "$date": "2021-12-16T16:30:37.671Z"
+        },
+        "pvname": "RAD:Thermo9:TotalDoseRate:Dose",
+        "specified_value_message": "level (1), values between 1.0 and 1.5",
+        "unit": "µSv",
+        "subject": "Thermo 9 Total Dose Rate Warning",
+        "emails": [
+                "claudio.carneiro@cnpem.br"
+        ],
+        "warning": "Warning: Thermo 9 total dose rate exceeded its limits!",
+        "condition": "increasing step",
+        "value_measured": "1.066"
+}]
